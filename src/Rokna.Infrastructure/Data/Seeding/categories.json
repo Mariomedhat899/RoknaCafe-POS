@@ -1,0 +1,6 @@
+[
+  { "name": "مشروبات ساخنة", "displayOrder": 1 },
+  { "name": "عصائر",         "displayOrder": 2 },
+  { "name": "اسموزي",        "displayOrder": 3 },
+  { "name": "ميلك شيك",      "displayOrder": 4 }
+]

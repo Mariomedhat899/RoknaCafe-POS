@@ -1,0 +1,32 @@
+# Build outputs
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# Visual Studio / Rider
+.vs/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+
+# .NET
+project.lock.json
+project.assets.json
+*.nupkg
+*.snk
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.tmp
