@@ -285,7 +285,7 @@ public partial class Form1 : Form
         currentTotal = currentSubtotal;
 
         lblSubtotal.Text = $"المجموع الفرعي: {currentSubtotal:F0} ج.م";
-        lblTax.Text = $"الضريبة: {currentTax:F0} ج.م";
+        lblTax.Text = $"{currentTax:F0} ج.م";
         lblTotalFooter.Text = $"الإجمالي: {currentTotal:F0} ج.م";
         lblTotalValue.Text = $"{currentTotal:F0} ج.م";
     }
@@ -345,7 +345,7 @@ public partial class Form1 : Form
         currentTotal = 0;
 
         lblSubtotal.Text = "المجموع الفرعي: 0 ج.م";
-        lblTax.Text = "الضريبة: 0 ج.م";
+        lblTax.Text = $"{currentTax:F0} ج.م";
         lblTotalFooter.Text = "الإجمالي: 0 ج.م";
         lblTotalValue.Text = "0 ج.م";
     }
@@ -471,7 +471,7 @@ public partial class Form1 : Form
         {
             g.DrawString($"المجموع الفرعي: {currentSubtotal:F0} ج.م", totalFont, textBrush, 10, y);
             y += 18;
-            g.DrawString($"الضريبة: {currentTax:F0} ج.م", totalFont, textBrush, 10, y);
+            g.DrawString($"{currentTax:F0} ج.م", totalFont, textBrush, 10, y);
             y += 18;
         }
 
