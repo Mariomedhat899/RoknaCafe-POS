@@ -275,9 +275,7 @@ public class PaidOrdersForm : Form
                 var itemTotal = order.TotalAmount;
                 if (itemTotal == 0 && order.OrderItems != null && order.OrderItems.Any())
                 {
-                    var subtotal = order.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity);
-                    var tax = subtotal * 0.15m;
-                    itemTotal = subtotal + tax;
+                    itemTotal = order.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity);
                 }
 
                 var row = new ListViewItem(order.OrderNumber ?? order.Id.ToString());
@@ -293,8 +291,7 @@ public class PaidOrdersForm : Form
             {
                 if (o.TotalAmount != 0) return o.TotalAmount;
                 if (o.OrderItems == null || !o.OrderItems.Any()) return 0;
-                var subtotal = o.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity);
-                return subtotal + subtotal * 0.15m;
+                return o.OrderItems.Sum(oi => oi.UnitPrice * oi.Quantity);
             });
 
             _lblTotal.Text = date.HasValue

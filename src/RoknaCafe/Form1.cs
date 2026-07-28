@@ -282,8 +282,7 @@ public partial class Form1 : Form
             }
         }
 
-        currentTax = currentSubtotal * 0.15m;
-        currentTotal = currentSubtotal + currentTax;
+        currentTotal = currentSubtotal;
 
         lblSubtotal.Text = $"المجموع الفرعي: {currentSubtotal:F0} ج.م";
         lblTax.Text = $"الضريبة: {currentTax:F0} ج.م";
