@@ -76,8 +76,6 @@ public class OrderService : IOrderService
       await _orderItemRepository.SaveChangesAsync();
 
       order.TotalAmount = total;
-      order.TaxAmount = total * 0.15m;
-      order.GrandTotal = total + order.TaxAmount.Value;
       _orderRepository.Update(order);
       await _orderRepository.SaveChangesAsync();
 

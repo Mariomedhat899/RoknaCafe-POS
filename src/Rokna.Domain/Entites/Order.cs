@@ -13,11 +13,6 @@ public class Order : BaseEntity
   public string CafeName {get; set;} = "روكن هادي";
 
   public decimal TotalAmount {get;set;}
-
-  public decimal? TaxAmount {get; set;}
-
-  public decimal GrandTotal {get; set;}
-
   public OrderStatus Status {get; set;} = OrderStatus.Completed;
 
   [MaxLength(500)]

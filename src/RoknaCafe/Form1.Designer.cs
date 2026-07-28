@@ -12,6 +12,7 @@ partial class Form1
     private System.Windows.Forms.Label lblSubtotal;
     private System.Windows.Forms.Label lblTax;
     private System.Windows.Forms.Label lblTotalFooter;
+    private System.Windows.Forms.Label lblTodayTotal;
     private System.Windows.Forms.Button btnPayNow;
     private System.Windows.Forms.Button btnPrint;
     private System.Windows.Forms.Button btnViewOrders;
@@ -27,6 +28,9 @@ partial class Form1
     private System.Windows.Forms.Button btnMilkshakes;
     private System.Windows.Forms.FlowLayoutPanel menuItemsFlow;
 
+
+
+
     protected override void Dispose(bool disposing)
     {
         if (disposing && (components != null))
@@ -39,11 +43,15 @@ partial class Form1
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
-        AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1200, 700);
-        Text = "روكن هادي - الكاشير";
-        Font = new Font("Tahoma", 10);
-        BackColor = Color.White;
+        this.AutoScaleMode = AutoScaleMode.Font;
+        this.ClientSize = new Size(1200, 732);
+        this.Text = "روكن هادي - الكاشير";
+        this.Font = new Font("Tahoma", 10);
+        this.BackColor = Color.White;
+        
+
+        // Icon is loaded from the output .ico file using the correct filename.
+        this.Icon = new System.Drawing.Icon("Rukn-Hady.ico");
 
         // orderPanel
         this.orderPanel = new System.Windows.Forms.Panel();
@@ -62,11 +70,12 @@ partial class Form1
         this.SuspendLayout();
 
         // orderPanel
-        this.orderPanel.Location = new Point(10, 10);
+        this.orderPanel.Location = new Point(0, 0);
         this.orderPanel.Name = "orderPanel";
-        this.orderPanel.Size = new Size(300, 680);
+        this.orderPanel.Size = new Size(300, 732);
         this.orderPanel.BorderStyle = BorderStyle.None;
         this.orderPanel.BackColor = Color.White;
+        this.orderPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
 
         // totalBar
         this.totalBar.Controls.Add(this.lblTotalValue);
@@ -92,7 +101,7 @@ partial class Form1
         this.lblTotalValue.ForeColor = Color.White;
         this.lblTotalValue.Location = new Point(0, 25);
         this.lblTotalValue.Size = new Size(300, 35);
-        this.lblTotalValue.Text = "0 ر.س";
+        this.lblTotalValue.Text = "0 ج.م";
         this.lblTotalValue.TextAlign = ContentAlignment.MiddleCenter;
 
         // orderItemsPanel
@@ -111,7 +120,7 @@ partial class Form1
         this.lblSubtotal.ForeColor = Color.FromArgb(80, 80, 80);
         this.lblSubtotal.Location = new Point(0, 320);
         this.lblSubtotal.Size = new Size(300, 25);
-        this.lblSubtotal.Text = "المجموع الفرعي: 0 ر.س";
+        this.lblSubtotal.Text = "المجموع الفرعي: 0 ج.م";
         this.lblSubtotal.TextAlign = ContentAlignment.MiddleLeft;
         this.lblSubtotal.Padding = new Padding(10, 0, 10, 0);
 
@@ -121,7 +130,7 @@ partial class Form1
         this.lblTax.ForeColor = Color.FromArgb(80, 80, 80);
         this.lblTax.Location = new Point(0, 345);
         this.lblTax.Size = new Size(300, 25);
-        this.lblTax.Text = "الضريبة: 0 ر.س";
+        this.lblTax.Text = "الضريبة: 0 ج.م";
         this.lblTax.TextAlign = ContentAlignment.MiddleLeft;
         this.lblTax.Padding = new Padding(10, 0, 10, 0);
 
@@ -131,9 +140,20 @@ partial class Form1
         this.lblTotalFooter.ForeColor = Color.FromArgb(107, 142, 35);
         this.lblTotalFooter.Location = new Point(0, 370);
         this.lblTotalFooter.Size = new Size(300, 30);
-        this.lblTotalFooter.Text = "الإجمالي: 0 ر.س";
+        this.lblTotalFooter.Text = "الإجمالي: 0 ج.م";
         this.lblTotalFooter.TextAlign = ContentAlignment.MiddleLeft;
         this.lblTotalFooter.Padding = new Padding(10, 0, 10, 0);
+
+        // lblTodayTotal
+        this.lblTodayTotal = new System.Windows.Forms.Label();
+        this.lblTodayTotal.Dock = DockStyle.Top;
+        this.lblTodayTotal.Font = new Font("Tahoma", 11, FontStyle.Bold);
+        this.lblTodayTotal.ForeColor = Color.FromArgb(52, 152, 219);
+        this.lblTodayTotal.Location = new Point(0, 400);
+        this.lblTodayTotal.Size = new Size(300, 32);
+        this.lblTodayTotal.Text = "إجمالي اليوم: جاري التحميل...";
+        this.lblTodayTotal.TextAlign = ContentAlignment.MiddleLeft;
+        this.lblTodayTotal.Padding = new Padding(10, 0, 10, 0);
 
         // btnPayNow
         this.btnPayNow = new System.Windows.Forms.Button();
@@ -190,6 +210,7 @@ partial class Form1
         this.orderPanel.Controls.Add(this.lblSubtotal);
         this.orderPanel.Controls.Add(this.lblTax);
         this.orderPanel.Controls.Add(this.lblTotalFooter);
+        this.orderPanel.Controls.Add(this.lblTodayTotal);
         this.orderPanel.Controls.Add(this.btnPrint);
         this.orderPanel.Controls.Add(this.btnViewOrders);
         this.orderPanel.Controls.Add(this.btnPayNow);
@@ -203,14 +224,14 @@ partial class Form1
         this.menuItemsFlow = new System.Windows.Forms.FlowLayoutPanel();
         this.menuPanel.SuspendLayout();
         this.topBar.SuspendLayout();
-        this.SuspendLayout();
 
         // menuPanel
-        this.menuPanel.Location = new Point(320, 10);
+        this.menuPanel.Location = new Point(300, 0);
         this.menuPanel.Name = "menuPanel";
         this.menuPanel.Size = new Size(870, 680);
         this.menuPanel.BorderStyle = BorderStyle.None;
         this.menuPanel.BackColor = Color.White;
+        this.menuPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
         // topBar
         this.topBar.Controls.Add(this.lblGreeting);
@@ -305,8 +326,6 @@ partial class Form1
         this.menuPanel.ResumeLayout(false);
 
         this.orderPanel.ResumeLayout(false);
-        this.SuspendLayout();
-
         // Form
         this.Controls.Add(this.menuPanel);
         this.Controls.Add(this.orderPanel);

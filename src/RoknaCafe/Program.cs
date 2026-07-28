@@ -37,14 +37,14 @@ static class Program
             using (var scope = serviceProvider.CreateScope())
             {
                 var form = scope.ServiceProvider.GetRequiredService<Form1>();
-                form.Shown += async (s, e) =>
+                form.Shown += async (s_, e_) =>
                 {
                     form.Enabled = false;
                     try
                     {
                         var initScope = serviceProvider.CreateScope();
-                        using var ctx = initScope.ServiceProvider.GetRequiredService<RoknaDbContext>();
-                        await ctx.Database.EnsureCreatedAsync();
+                        await using var ctx = initScope.ServiceProvider.GetRequiredService<RoknaDbContext>();
+                        await ctx.Database.MigrateAsync();
                         await DbInitializer.SeedAsync(ctx);
                     }
                     catch (Exception ex)

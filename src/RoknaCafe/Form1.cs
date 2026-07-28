@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Rokna.Domain.Interfaces;
-using Rokna.Infrastructure.Services;
 using Rokna.Domain.Entities;
+using Rokna.Domain.Interfaces;
 
 namespace RoknaCafe;
 
@@ -16,6 +10,9 @@ public class OrderItem
     public int Quantity { get; set; }
     public decimal Price { get; set; }
 }
+
+
+
 
 public partial class Form1 : Form
 {
@@ -36,6 +33,13 @@ public partial class Form1 : Form
         _orderService = orderService;
 
         InitializeComponent();
+
+        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+        using (var stream = assembly.GetManifestResourceStream("RoknaCafe.rukn-hady.ico"))
+        {
+            if (stream != null)
+                this.Icon = new Icon(stream);
+        }
         SetupPrintDocument();
         btnPrint.Click += BtnPrint_Click;
         btnPayNow.Click += BtnPayNow_Click;
@@ -48,6 +52,7 @@ public partial class Form1 : Form
         btnMilkshakes.Click += CategoryButton_Click;
 
         this.Load += Form1_Load;
+        this.WindowState = FormWindowState.Maximized;
     }
 
     private void SetupPrintDocument()
@@ -64,7 +69,24 @@ public partial class Form1 : Form
 
     private async void Form1_Load(object sender, EventArgs e)
     {
-        // DB init deferred to InitializeAsync after form is shown
+        await InitializeAsync();
+        await UpdateTodayTotalAsync();
+    }
+
+    private async Task UpdateTodayTotalAsync()
+    {
+        var today = DateTime.Today;
+        var tomorrow = today.AddDays(1);
+
+        var todayOrders = (await _orderService.GetByDateRangeAsync(today, tomorrow))
+            .Where(o => o.Status == OrderStatus.Completed)
+            .ToList();
+
+        var total = todayOrders.Sum(o => o.TotalAmount);
+
+        lblTodayTotal.Text = total == 0
+            ? "إجمالي اليوم: 0 ج.م"
+            : $"إجمالي اليوم: {total:F0} ج.م";
     }
 
     public async Task InitializeAsync()
@@ -129,7 +151,7 @@ public partial class Form1 : Form
 
         var lblPrice = new Label
         {
-            Text = $"{item.Price:F0} ر.س",
+            Text = $"{item.Price:F0} ج.م",
             Font = new Font("Tahoma", 9),
             ForeColor = Color.FromArgb(107, 142, 35),
             Location = new Point(10, 65),
@@ -263,10 +285,10 @@ public partial class Form1 : Form
         currentTax = currentSubtotal * 0.15m;
         currentTotal = currentSubtotal + currentTax;
 
-        lblSubtotal.Text = $"المجموع الفرعي: {currentSubtotal:F0} ر.س";
-        lblTax.Text = $"الضريبة: {currentTax:F0} ر.س";
-        lblTotalFooter.Text = $"الإجمالي: {currentTotal:F0} ر.س";
-        lblTotalValue.Text = $"{currentTotal:F0} ر.س";
+        lblSubtotal.Text = $"المجموع الفرعي: {currentSubtotal:F0} ج.م";
+        lblTax.Text = $"الضريبة: {currentTax:F0} ج.م";
+        lblTotalFooter.Text = $"الإجمالي: {currentTotal:F0} ج.م";
+        lblTotalValue.Text = $"{currentTotal:F0} ج.م";
     }
 
     private async void BtnPayNow_Click(object sender, EventArgs e)
@@ -295,6 +317,7 @@ public partial class Form1 : Form
 
             MessageBox.Show($"تم حفظ الطلب رقم {order.OrderNumber}", "تم الدفع", MessageBoxButtons.OK, MessageBoxIcon.Information);
             ClearOrder();
+            await UpdateTodayTotalAsync();
         }
         catch (Exception ex)
         {
@@ -311,6 +334,7 @@ public partial class Form1 : Form
     {
         using var ordersForm = new PaidOrdersForm(_orderService);
         ordersForm.ShowDialog(this);
+        await UpdateTodayTotalAsync();
     }
 
     private void ClearOrder()
@@ -321,10 +345,10 @@ public partial class Form1 : Form
         currentTax = 0;
         currentTotal = 0;
 
-        lblSubtotal.Text = "المجموع الفرعي: 0 ر.س";
-        lblTax.Text = "الضريبة: 0 ر.س";
-        lblTotalFooter.Text = "الإجمالي: 0 ر.س";
-        lblTotalValue.Text = "0 ر.س";
+        lblSubtotal.Text = "المجموع الفرعي: 0 ج.م";
+        lblTax.Text = "الضريبة: 0 ج.م";
+        lblTotalFooter.Text = "الإجمالي: 0 ج.م";
+        lblTotalValue.Text = "0 ج.م";
     }
 
     private void BtnPrint_Click(object sender, EventArgs e)
@@ -446,16 +470,16 @@ public partial class Form1 : Form
         using (Font totalFont = new Font("Tahoma", 10))
         using (Brush textBrush = new SolidBrush(Color.FromArgb(80, 80, 80)))
         {
-            g.DrawString($"المجموع الفرعي: {currentSubtotal:F0} ر.س", totalFont, textBrush, 10, y);
+            g.DrawString($"المجموع الفرعي: {currentSubtotal:F0} ج.م", totalFont, textBrush, 10, y);
             y += 18;
-            g.DrawString($"الضريبة: {currentTax:F0} ر.س", totalFont, textBrush, 10, y);
+            g.DrawString($"الضريبة: {currentTax:F0} ج.م", totalFont, textBrush, 10, y);
             y += 18;
         }
 
         using (Font boldTotalFont = new Font("Tahoma", 11, FontStyle.Bold))
         using (Brush totalBrush = new SolidBrush(Color.FromArgb(107, 142, 35)))
         {
-            g.DrawString($"الإجمالي: {currentTotal:F0} ر.س", boldTotalFont, totalBrush, 10, y);
+            g.DrawString($"الإجمالي: {currentTotal:F0} ج.م", boldTotalFont, totalBrush, 10, y);
             y += 26;
         }
 

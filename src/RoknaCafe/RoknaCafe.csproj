@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <ApplicationIcon>rokn-hady.ico</ApplicationIcon>
+    <ApplicationIcon>rukn-hady.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,4 +22,19 @@
     <ProjectReference Include="..\Rokna.Infrastructure\Rokna.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Remove="rukn-hady.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="rukn-hady.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="rukn-hady.ico" />
+	</ItemGroup>
+
+	
+	
 </Project>

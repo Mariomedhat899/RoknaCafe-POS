@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rokna.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using Rokna.Infrastructure.Data;
 namespace Rokna.Infrastructure.Migrations
 {
     [DbContext(typeof(RoknaDbContext))]
-    partial class RoknaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260726133215_RemoveGrandTotalFromOrders")]
+    partial class RemoveGrandTotalFromOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
